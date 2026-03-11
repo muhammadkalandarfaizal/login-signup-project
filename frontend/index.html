@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Signup</title>
+
+<style>
+
+body{
+font-family: Arial;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+background:#f2f2f2;
+}
+
+.container{
+width:700px;
+display:flex;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+.left{
+width:50%;
+padding:40px;
+background:white;
+}
+
+.right{
+width:50%;
+background:linear-gradient(45deg,#2bb673,#00a6a6);
+color:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:20px;
+border:1px solid #ccc;
+}
+
+button{
+padding:10px 30px;
+border:none;
+border-radius:20px;
+background:#2bb673;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="left">
+
+<h2 id="title">Login</h2>
+
+<div id="signupFields" style="display:none">
+<input type="text" id="name" placeholder="Name">
+</div>
+
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="submitForm()">Submit</button>
+
+</div>
+
+<div class="right">
+
+<h2 id="rightTitle">New Here?</h2>
+
+<button onclick="toggleForm()">Sign Up</button>
+
+</div>
+
+</div>
+
+<script>
+
+let isLogin=true
+
+function toggleForm(){
+
+isLogin=!isLogin
+
+if(isLogin){
+
+document.getElementById("title").innerText="Login"
+document.getElementById("signupFields").style.display="none"
+document.getElementById("rightTitle").innerText="New Here?"
+
+}else{
+
+document.getElementById("title").innerText="Signup"
+document.getElementById("signupFields").style.display="block"
+document.getElementById("rightTitle").innerText="Already have account?"
+
+}
+
+}
+
+function submitForm(){
+
+const email=document.getElementById("email").value
+const password=document.getElementById("password").value
+const name=document.getElementById("name").value
+
+let url=""
+
+let data={email,password}
+
+if(isLogin){
+
+url="http://localhost:5000/api/login"
+
+}else{
+
+url="http://localhost:5000/api/signup"
+data={name,email,password}
+
+}
+
+fetch(url,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(data)
+})
+.then(res=>res.json())
+.then(data=>{
+alert(data.message)
+})
+
+}
+
+</script>
+
+</body>
+</html>
